@@ -3,69 +3,155 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Meet Boo-buddy, a shy desktop ghost powered by an offline local model.">
-  <meta name="color-scheme" content="light dark">
-  <title>Boo-buddy — your tiny desktop ghost</title>
+  <meta name="description" content="Meet Boo-buddy, a tiny floating ghost with a sugar-skull smile and a private, local AI heart. Free to use with Ollama.">
+  <meta name="theme-color" content="#fff8ef">
+  <title>Boo-buddy — a little ghost with a lot of heart</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="hero">
-    <nav><a class="brand" href="#">✿ Boo-buddy</a><a href="#why-open">Why open?</a></nav>
-    <div class="hero-content">
-      <div>
-        <p class="eyebrow">YOUR NEW DESKTOP ROOMMATE</p>
-        <h1>A little ghost.<br>A lot of heart.</h1>
-        <p class="pitch">A shy, sweet desktop pet with thoughts of its own — powered by a model that stays on your computer.</p>
-        <div class="downloads">
-          <a class="button" href="https://github.com/YOUR-NAME/boo-buddy/releases/latest">Download for Windows</a>
-          <a href="https://github.com/YOUR-NAME/boo-buddy/releases/latest">macOS</a>
-          <a href="https://github.com/YOUR-NAME/boo-buddy/releases/latest">Linux</a>
-        </div>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="hero" id="top">
+    <nav class="site-nav" aria-label="Main navigation">
+      <a class="brand" href="#top" aria-label="Boo-buddy home">
+        <span class="brand-flower" aria-hidden="true">✿</span>
+        <span>Boo-buddy</span>
+      </a>
+      <div class="nav-links">
+        <a href="#friends">Meet the ghosts</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#privacy">Privacy</a>
       </div>
-      <div class="demo" aria-label="Demo GIF placeholder">
-        <div class="halo"></div><div class="ghost-hero">👻</div>
-        <div class="speech">You are doing wonderfully, even between tiny victories.</div>
-        <span class="placeholder">Demo GIF goes here</span>
+      <a class="nav-cta" href="https://github.com/anshika-guleria/beo-buddy/releases/latest">Get Boo-buddy <span aria-hidden="true">↗</span></a>
+    </nav>
+
+    <div class="hero-content">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="sparkle" aria-hidden="true">✦</span> YOUR LITTLE DESKTOP COMPANION</p>
+        <h1>A little ghost.<br><span>A lot of heart.</span></h1>
+        <p class="pitch">A shy, sweet desktop friend who cheers your tiny wins, listens to your whispers, and keeps its thoughts right at home.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="https://github.com/anshika-guleria/beo-buddy/releases/latest">Meet your new ghost <span aria-hidden="true">→</span></a>
+          <a class="text-link" href="#how-it-works">How it works <span aria-hidden="true">↓</span></a>
+        </div>
+        <ul class="hero-promises" aria-label="Boo-buddy highlights">
+          <li><span aria-hidden="true">♡</span> Free to use</li>
+          <li><span aria-hidden="true">✿</span> Runs locally</li>
+          <li><span aria-hidden="true">☾</span> No account needed</li>
+        </ul>
+      </div>
+
+      <div class="hero-art">
+        <img class="hero-ghost" src="../renderer/ghosts/ghost-1.svg" alt="Boo-ddy, wearing a colorful sugar-skull mask">
       </div>
     </div>
   </header>
-  <main>
-    <section class="section" id="moods">
-      <p class="eyebrow">A GHOST WITH A FEW SIDES</p><h2>Meet the moods</h2>
-      <div class="cards moods">
-        <article class="card tint-cheery"><span>✨</span><h3>Cheery</h3><p>A little sparkle for your everyday.</p></article>
-        <article class="card tint-sleepy"><span>🌙</span><h3>Sleepy</h3><p>After midnight, even ghosts yawn.</p></article>
-        <article class="card tint-spooked"><span>😱</span><h3>Spooked</h3><p>One loud click? Oh, goodness.</p></article>
-        <article class="card tint-proud"><span>🏆</span><h3>Proud</h3><p>Your tiny wins are big news.</p></article>
-        <article class="card tint-lonely"><span>💜</span><h3>Lonely</h3><p>A soft hello when you return.</p></article>
-        <article class="card tint-spooky"><span>🎃</span><h3>Spooky</h3><p>October calls for a polite boo.</p></article>
-        <article class="card tint-marigold"><span>🌼</span><h3>Marigold</h3><p>Candlelight, flowers, and remembering.</p></article>
+
+  <main id="main">
+    <section class="section friends-section" id="friends">
+      <div class="section-heading">
+        <p class="eyebrow">SIX LITTLE PERSONALITIES</p>
+        <h2>Pick your kind of boo.</h2>
+        <p>Meet the ghost friends, each with their own colors, signature details, and a face that can change with your mood.</p>
+      </div>
+      <div class="friend-grid">
+        <article class="friend-card friend-pink"><img class="friend-portrait" src="../renderer/ghosts/ghost-1.svg" alt=""><h3>Boo-ddy</h3><p>Your sweet, shy first hello.</p></article>
+        <article class="friend-card friend-violet"><img class="friend-portrait" src="../renderer/ghosts/ghost-2.svg" alt=""><h3>Violet</h3><p>A little lavender magic.</p></article>
+        <article class="friend-card friend-orange"><img class="friend-portrait" src="../renderer/ghosts/ghost-3.svg" alt=""><h3>Pumpkin</h3><p>Warm, autumn-orange cheer.</p></article>
+        <article class="friend-card friend-blue"><img class="friend-portrait" src="../renderer/ghosts/ghost-4.svg" alt=""><h3>Batty</h3><p>A friendly hint of spooky.</p></article>
+        <article class="friend-card friend-green"><img class="friend-portrait" src="../renderer/ghosts/ghost-5.svg" alt=""><h3>Cozy</h3><p>Your soft little comfort ghost.</p></article>
+        <article class="friend-card friend-berry"><img class="friend-portrait" src="../renderer/ghosts/ghost-6.svg" alt=""><h3>Whisper</h3><p>Quiet company, whenever you need.</p></article>
+      </div>
+      <p class="section-footnote">Each ghost can wear a sugar-skull mask or keep its original face.</p>
+    </section>
+
+    <section class="mood-band" aria-labelledby="moods-title">
+      <div class="mood-copy">
+        <p class="eyebrow">FEELINGS, BUT MAKE THEM GHOSTLY</p>
+        <h2 id="moods-title">A few sides to Boo.</h2>
+        <p>Little reactions bring your companion to life, without making a big fuss about it.</p>
+      </div>
+      <div class="mood-list">
+        <span>✨ Cheery</span><span>🌙 Sleepy</span><span>😱 Spooked</span><span>🏆 Proud</span>
+        <span>💜 Lonely</span><span>🎃 Spooky</span><span>🌼 Marigold</span>
       </div>
     </section>
-    <section class="section why" id="why-open">
-      <p class="eyebrow">OPEN BY DESIGN</p><h2>Your ghost. Your rules.</h2>
-      <div class="cards">
-        <article class="card"><h3>Works offline</h3><p>Run it without Wi-Fi. Nothing leaves your machine.</p></article>
-        <article class="card"><h3>$0 to use</h3><p>No subscription, account, API key, or analytics.</p></article>
-        <article class="card"><h3>Swap the model</h3><p>Pick a local Gemma or another supported Ollama model.</p></article>
-        <article class="card"><h3>Edit the personality</h3><p>Open the prompt and make Boo-ddy your own.</p></article>
-        <article class="card"><h3>Made to last</h3><p>No hosted service to disappear from under your ghost.</p></article>
+
+    <section class="section how-section" id="how-it-works">
+      <div class="section-heading">
+        <p class="eyebrow">A GENTLE LITTLE ROUTINE</p>
+        <h2>Your ghost, your way.</h2>
+        <p>Boo-buddy stays out of the way until you want a moment of company.</p>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-card"><span class="feature-icon icon-lilac" aria-hidden="true">♡</span><h3>Give a tiny poke</h3><p>Click your ghost to get a gentle reaction or open the whisper box for a quiet chat.</p></article>
+        <article class="feature-card"><span class="feature-icon icon-pink" aria-hidden="true">⌘</span><h3>Make it yours</h3><p>Choose a friend, switch between the sugar-skull look and classic faces, and pick a local model.</p></article>
+        <article class="feature-card"><span class="feature-icon icon-gold" aria-hidden="true">☾</span><h3>Let it be gentle</h3><p>Soft floating, quiet check-ins, and a sleepy mood after midnight. No noisy dashboard needed.</p></article>
+      </div>
+      <div class="shortcut-note">
+        <div><span class="eyebrow">A COUPLE OF SHORTCUTS</span><p><kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>G</kbd> changes ghosts <span class="shortcut-divider">·</span> <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>M</kbd> toggles masks</p></div>
+        <span class="shortcut-candle" aria-hidden="true">🕯️</span>
       </div>
     </section>
-    <section class="section steps">
-      <p class="eyebrow">UP AND FLOATING IN THREE STEPS</p><h2>Bring Boo home</h2>
-      <ol>
-        <li><span>1</span><div><h3>Install Ollama</h3><p>Get the local model runner from ollama.com.</p></div></li>
-        <li><span>2</span><div><h3>Download a model</h3><code>ollama pull gemma3:1b</code></div></li>
-        <li><span>3</span><div><h3>Install Boo-buddy</h3><p>Download your desktop app, launch it, and say hello.</p></div></li>
+
+    <section class="local-section" id="privacy">
+      <div class="local-copy">
+        <p class="eyebrow">A PRIVATE LITTLE WORLD</p>
+        <h2>Your whispers stay yours.</h2>
+        <p>Boo-buddy uses Ollama to run its language model on your computer. Your chat goes to the local Ollama service—not a hosted AI API.</p>
+        <ul class="privacy-list">
+          <li><span aria-hidden="true">✓</span> No paid AI service, subscription, API key, or account</li>
+          <li><span aria-hidden="true">✓</span> No screen-reading, analytics, or remote inference</li>
+          <li><span aria-hidden="true">✓</span> Works offline after you download the app and model</li>
+          <li><span aria-hidden="true">✓</span> Clipboard is shared only when you explicitly ask</li>
+        </ul>
+        <a class="text-link" href="https://github.com/anshika-guleria/beo-buddy/blob/main/docs/ollama-ai-guide.md">Read the privacy and AI guide <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
+    <section class="section setup-section">
+      <div class="section-heading">
+        <p class="eyebrow">NO SPELLBOOK REQUIRED</p>
+        <h2>Bring Boo home in three steps.</h2>
+        <p>Everything is free to download. Ollama runs the model on your computer.</p>
+      </div>
+      <ol class="setup-steps">
+        <li><span class="step-number">01</span><div><h3>Install Ollama</h3><p>Get the local model runner from <a href="https://ollama.com/download">ollama.com</a>.</p></div></li>
+        <li><span class="step-number">02</span><div><h3>Bring home a model</h3><p>Open a terminal and download Gemma 3 1B:</p><code>ollama pull gemma3:1b</code></div></li>
+        <li><span class="step-number">03</span><div><h3>Install Boo-buddy</h3><p>Get the latest release, open it, and say hello. You can also run the project from source.</p></div></li>
       </ol>
+      <a class="button button-primary setup-button" href="https://github.com/anshika-guleria/beo-buddy/releases/latest">See the latest release <span aria-hidden="true">↗</span></a>
+      <p class="setup-detail">Windows, macOS, and Linux instructions are in the <a href="https://github.com/anshika-guleria/beo-buddy#-quick-start">project quick start</a>.</p>
     </section>
-    <section class="section compare">
-      <p class="eyebrow">REAL PROMPTS, LOCAL MODELS</p><h2>Model comparison</h2>
-      <p>Measurements are generated on your hardware. Run <code>npm run compare</code> with the models installed.</p>
-      <div class="table-wrap"><table><thead><tr><th>Model</th><th>Prompts followed</th><th>Median latency</th></tr></thead><tbody><tr><td colspan="3">TODO — paste measured results from docs/model-comparison.md</td></tr></tbody></table></div>
+
+    <section class="faq-section">
+      <div class="section-heading">
+        <p class="eyebrow">A FEW LITTLE ANSWERS</p>
+        <h2>Before you say hello.</h2>
+      </div>
+      <div class="faq-list">
+        <details><summary>Does Boo-buddy cost anything?</summary><p>No. Boo-buddy and the listed Ollama models are free to use. Your computer still uses disk space, memory, and electricity.</p></details>
+        <details><summary>Does it need the internet?</summary><p>You need internet to download Ollama, the app dependencies, and a model. After that, the app and model can work offline.</p></details>
+        <details><summary>What if Ollama is not running?</summary><p>Start the Ollama app. If needed, run <code>ollama serve</code> in a terminal and confirm the model is installed with <code>ollama list</code>.</p></details>
+        <details><summary>Can I use a different model?</summary><p>Yes. Download one of the supported models and select it in Boo-buddy’s tray menu. The project guide has model setup details.</p></details>
+      </div>
+    </section>
+
+    <section class="final-callout">
+      <p class="eyebrow">A LITTLE COMPANION FOR YOUR DESKTOP</p>
+      <h2>Make room for a little boo.</h2>
+      <p>Free, local, and quietly rooting for you.</p>
+      <a class="button button-light" href="https://github.com/anshika-guleria/beo-buddy/releases/latest">Meet Boo-buddy <span aria-hidden="true">→</span></a>
     </section>
   </main>
-  <footer><span>Made with a little spirit and a lot of open source.</span><a href="https://github.com/YOUR-NAME/boo-buddy">View the source</a></footer>
+
+  <footer class="site-footer">
+    <a class="brand" href="#top"><span class="brand-flower" aria-hidden="true">✿</span><span>Boo-buddy</span></a>
+    <p>A little spirit, a lot of heart. Made to stay close to home.</p>
+    <div class="footer-links">
+      <a href="https://github.com/anshika-guleria/beo-buddy">Source</a>
+      <a href="https://github.com/anshika-guleria/beo-buddy/blob/main/README.md">Setup guide</a>
+      <a href="https://github.com/anshika-guleria/beo-buddy/releases/latest">Releases</a>
+    </div>
+  </footer>
 </body>
 </html>
