@@ -15,6 +15,8 @@ contextBridge.exposeInMainWorld('booBuddy', {
   onSay: (callback) => ipcRenderer.on('say', (_event, payload) => callback(payload)),
   onMood: (callback) => ipcRenderer.on('mood', (_event, mood) => callback(mood)),
   onCharacter: (callback) => ipcRenderer.on('character', (_event, character) => callback(character)),
+  onNextCharacterShortcut: (callback) => ipcRenderer.on('next-character-shortcut', callback),
+  onToggleMasksShortcut: (callback) => ipcRenderer.on('toggle-masks-shortcut', callback),
   onOnboarding: (callback) => ipcRenderer.on('onboarding', (_event, payload) => callback(payload)),
   onLonely: (callback) => ipcRenderer.on('lonely', callback),
   onReturnFromLonely: (callback) => ipcRenderer.on('return-from-lonely', callback),

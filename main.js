@@ -503,6 +503,15 @@ app.whenReady().then(async () => {
   scheduleMidnight();
   wanderTimer = setInterval(wanderWindow, 15 * 1000);
   globalShortcut.register('CommandOrControl+Shift+B', shareClipboard);
+  const shortcutActions = [
+    ['CommandOrControl+Shift+G', 'next-character-shortcut'],
+    ['CommandOrControl+Shift+M', 'toggle-masks-shortcut']
+  ];
+  for (const [accelerator, channel] of shortcutActions) {
+    if (!globalShortcut.register(accelerator, () => mainWindow?.webContents.send(channel))) {
+      console.warn(`Could not register the ${accelerator} shortcut; it may already be in use.`);
+    }
+  }
   app.on('activate', () => { if (!mainWindow) createWindow(); });
 });
 

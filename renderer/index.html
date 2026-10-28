@@ -21,22 +21,25 @@
     </div>
     <div class="ghost-shadow" aria-hidden="true"></div>
     <div class="pet-name" id="pet-name">Boo-ddy</div>
-    <button class="friend-bow" id="friend-bow" type="button" aria-label="Switch ghost. Current ghost: Boo-ddy">
-      <svg class="bow-art" viewBox="0 0 120 90" aria-hidden="true">
-        <path class="bow-wing bow-wing-left" d="M54 43C43 29 28 13 5 16c8 7 11 15 8 23 10-1 16 6 13 15 11-2 19 3 20 17l13-18z"/>
-        <path class="bow-wing bow-wing-right" d="M66 43c11-14 26-30 49-27-8 7-11 15-8 23-10-1-16 6-13 15-11-2-19 3-20 17L61 53z"/>
-        <path class="bow-wing-detail" d="M10 21q20-3 42 23M15 39q15-1 32 13m58-31Q85 18 64 44m41-5q-15-1-32 13"/>
-        <path class="bow-wing-stitch" d="M8 19q20-4 44 24m60-24q-20-4-44 24"/>
-        <circle class="bow-dot" cx="21" cy="50" r="1.5"/><circle class="bow-dot" cx="31" cy="61" r="1.5"/>
-        <circle class="bow-dot" cx="99" cy="50" r="1.5"/><circle class="bow-dot" cx="89" cy="61" r="1.5"/>
-        <path class="bow-tail bow-tail-left" d="m43 43 13 4-2 31-15-18z"/>
-        <path class="bow-tail bow-tail-right" d="m77 43-13-4 2 35 15-18z"/>
-        <path class="bow-knot" d="m60 34-8-9 2 15-12 7 15 4 3-5 3 5 15-4-12-7 2-15z"/>
-        <path class="bow-heart" d="M60 34c-3-7-14-5-13 3 1 5 8 10 13 14 5-4 12-9 13-14 1-8-10-10-13-3z"/>
-        <path class="bow-gem-facet" d="m51 33 4-3 5 4 5-4 4 3-9 13z"/>
-        <path class="bow-heart-shine" d="M53 34q2-3 5-1"/>
+    <button class="candle-button" id="candle-button" type="button" aria-expanded="false" aria-controls="shortcut-help" aria-label="Show keyboard shortcuts" title="Show keyboard shortcuts">
+      <svg class="candle-art" viewBox="0 0 48 64" aria-hidden="true">
+        <ellipse class="candle-glow" cx="24" cy="21" rx="14" ry="17"/>
+        <path class="candle-smoke" d="M24 13 C18 8 29 5 23 0 M29 11 C35 6 28 3 33 0"/>
+        <path class="candle-flame" d="M24 3 C18 11 19 16 24 18 C30 16 30 10 24 3Z"/>
+        <path class="candle-flame-core" d="M24 10 C21 14 22 16 24 17 C26 15 26 13 24 10Z"/>
+        <path class="candle-wick" d="M24 17V21"/>
+        <path class="candle-body" d="M15 22 Q19 25 23 22 Q27 25 33 22 L32 53 Q24 57 16 53Z"/>
+        <path class="candle-drip" d="M15 22 Q19 25 23 22 Q27 25 33 22 L33 28 Q30 31 28 28 L27 25 Q24 28 22 26 Q20 31 17 28Z"/>
+        <path class="candle-flower" d="M24 35 C21 31 17 34 20 37 C17 40 21 43 24 40 C27 43 31 40 28 37 C31 34 27 31 24 35Z"/>
+        <circle class="candle-flower-center" cx="24" cy="37.5" r="2"/>
+        <path class="candle-shine" d="M18 45 L18 50"/>
+        <ellipse class="candle-base" cx="24" cy="54" rx="11" ry="3"/>
       </svg>
     </button>
+    <div class="shortcut-help" id="shortcut-help" role="status" hidden>
+      <div><kbd>Ctrl/Cmd</kbd> + <kbd>Shift</kbd> + <kbd>G</kbd> <span>Change ghost</span></div>
+      <div><kbd>Ctrl/Cmd</kbd> + <kbd>Shift</kbd> + <kbd>M</kbd> <span>Toggle masks</span></div>
+    </div>
     <div class="onboarding" id="onboarding" hidden></div>
   </main>
   <script src="app.js"></script>

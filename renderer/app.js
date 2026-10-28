@@ -8,7 +8,8 @@ const whisperClose = document.getElementById('whisper-close');
 const onboarding = document.getElementById('onboarding');
 const petName = document.getElementById('pet-name');
 const characterImage = document.getElementById('character-art');
-const friendBow = document.getElementById('friend-bow');
+const candleButton = document.getElementById('candle-button');
+const shortcutHelp = document.getElementById('shortcut-help');
 const friendNames = {
   'ghost-1': 'Boo-ddy',
   'ghost-2': 'Violet',
@@ -19,6 +20,7 @@ const friendNames = {
 };
 let dragPointer = null;
 let suppressGhostClick = false;
+let paintedMasksEnabled = true;
 
 function openWhisperBox() {
   pet.classList.add('chat-open');
@@ -38,6 +40,7 @@ function closeWhisperBox() {
 function updateMousePassThrough() {
   const needsMouse = Boolean(dragPointer)
     || whisperForm.classList.contains('open')
+    || !shortcutHelp.hidden
     || pet.matches(':hover');
   window.booBuddy.setMouseEvents(!needsMouse);
 }
@@ -68,6 +71,8 @@ window.booBuddy.onSay(({ text, mood }) => {
 });
 window.booBuddy.onMood(setPetMood);
 window.booBuddy.onCharacter((character) => setCharacter(character));
+window.booBuddy.onNextCharacterShortcut(() => cycleCharacter());
+window.booBuddy.onToggleMasksShortcut(() => setMasksEnabled(!paintedMasksEnabled));
 window.booBuddy.onLonely(() => { pet.classList.add('mood-lonely'); });
 window.booBuddy.onReturnFromLonely(() => { pet.classList.remove('mood-lonely'); showBubble('You came back! I saved you a tiny heart.'); });
 window.booBuddy.onOpenWhisper(openWhisperBox);
@@ -88,12 +93,24 @@ function setCharacter(character) {
   if (!friendNames[character]) return;
   pet.dataset.character = character;
   petName.textContent = friendNames[character];
-  characterImage.src = `ghosts/${character}.svg`;
+  characterImage.src = `ghosts/${character}${paintedMasksEnabled ? '' : '-classic'}.svg`;
   characterImage.alt = `${friendNames[character]}, a cute Halloween ghost`;
-  friendBow.setAttribute('aria-label', `Show next ghost. Current ghost: ${friendNames[character]}`);
 }
 
-friendBow.addEventListener('click', async () => {
+function setMasksEnabled(enabled) {
+  paintedMasksEnabled = enabled;
+  candleButton.classList.toggle('masks-off', !paintedMasksEnabled);
+  setCharacter(pet.dataset.character);
+}
+
+function toggleShortcutHelp() {
+  shortcutHelp.hidden = !shortcutHelp.hidden;
+  candleButton.setAttribute('aria-expanded', String(!shortcutHelp.hidden));
+  if (!shortcutHelp.hidden) window.booBuddy.setMouseEvents(false);
+  else updateMousePassThrough();
+}
+
+async function cycleCharacter() {
   const characters = Object.keys(friendNames);
   const current = pet.dataset.character || characters[0];
   const next = characters[(characters.indexOf(current) + 1) % characters.length];
@@ -106,14 +123,19 @@ friendBow.addEventListener('click', async () => {
     setCharacter(current);
     showBubble(error.message || 'I could not switch friends just now.');
   }
+}
+
+candleButton.addEventListener('click', toggleShortcutHelp);
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && !shortcutHelp.hidden) toggleShortcutHelp();
 });
 
 window.booBuddy.getSettings().then(({ character }) => setCharacter(character)).catch((error) => {
   console.error('Could not load Boo-buddy character setting:', error);
 });
 
-friendBow.addEventListener('mouseenter', () => window.booBuddy.setMouseEvents(false));
-friendBow.addEventListener('pointerdown', () => window.booBuddy.setMouseEvents(false));
+candleButton.addEventListener('mouseenter', () => window.booBuddy.setMouseEvents(false));
+candleButton.addEventListener('pointerdown', () => window.booBuddy.setMouseEvents(false));
 ghost.addEventListener('mouseenter', () => window.booBuddy.setMouseEvents(false));
 ghost.addEventListener('pointerdown', () => {
   window.booBuddy.setMouseEvents(false);
@@ -203,5 +225,5 @@ ghost.addEventListener('pointercancel', (event) => {
 ghost.addEventListener('pointerup', finishGhostDrag);
 pet.addEventListener('mouseenter', () => window.booBuddy.setMouseEvents(false));
 pet.addEventListener('mouseleave', () => {
-  if (!dragPointer && !whisperForm.classList.contains('open')) window.booBuddy.setMouseEvents(true);
+  if (!dragPointer && !whisperForm.classList.contains('open') && shortcutHelp.hidden) window.booBuddy.setMouseEvents(true);
 });
