@@ -6,6 +6,7 @@ const MODEL_NAMES = ['gemma3:1b', 'gemma3:4b', 'llama3.2:1b', 'qwen2.5:1.5b'];
 const CHARACTERS = ['ghost-1', 'ghost-2', 'ghost-3', 'ghost-4', 'ghost-5', 'ghost-6'];
 const CHARACTER_NAMES = ['Boo-ddy', 'Violet', 'Pumpkin', 'Batty', 'Cozy', 'Whisper'];
 const WINDOW_SIZE = { width: 320, height: 695 };
+const GHOST_VERTICAL_BOUNDS = { top: 450, bottom: 660 };
 const WANDER_AFTER_MS = 5 * 60 * 1000;
 const DEFAULT_SETTINGS = {
   model: 'gemma3:1b',
@@ -200,19 +201,20 @@ function placeWindow() {
     })
     : screen.getPrimaryDisplay();
   const { x, y, width, height } = display.workArea;
+  const minY = display.bounds.y - GHOST_VERTICAL_BOUNDS.top;
   const maxX = Math.max(x, x + width - WINDOW_SIZE.width);
-  const maxY = Math.max(y, y + height - WINDOW_SIZE.height);
+  const maxY = display.bounds.y + display.bounds.height - GHOST_VERTICAL_BOUNDS.bottom;
 
   if (settings.position && Array.isArray(settings.position) && settings.position.length === 2) {
     mainWindow.setPosition(
       Math.min(maxX, Math.max(x, savedX)),
-      Math.min(maxY, Math.max(y, savedY))
+      Math.min(maxY, Math.max(minY, savedY))
     );
     return;
   }
   mainWindow.setPosition(
     Math.min(maxX, Math.max(x, x + width - WINDOW_SIZE.width - 20)),
-    Math.min(maxY, Math.max(y, y + height - WINDOW_SIZE.height - 20))
+    Math.min(maxY, Math.max(minY, y + height - WINDOW_SIZE.height - 20))
   );
 }
 
@@ -229,11 +231,13 @@ function wanderWindow() {
   const displays = screen.getAllDisplays();
   let destination = null;
   for (let attempt = 0; attempt < 12; attempt += 1) {
-    const area = displays[Math.floor(Math.random() * displays.length)].workArea;
+    const display = displays[Math.floor(Math.random() * displays.length)];
+    const area = display.workArea;
+    const minY = display.bounds.y - GHOST_VERTICAL_BOUNDS.top;
     const maxX = Math.max(area.x, area.x + area.width - WINDOW_SIZE.width);
-    const maxY = Math.max(area.y, area.y + area.height - WINDOW_SIZE.height);
+    const maxY = display.bounds.y + display.bounds.height - GHOST_VERTICAL_BOUNDS.bottom;
     const x = Math.round(area.x + Math.random() * (maxX - area.x));
-    const y = Math.round(area.y + Math.random() * (maxY - area.y));
+    const y = Math.round(minY + Math.random() * (maxY - minY));
     if (Math.hypot(x - currentX, y - currentY) >= 180) {
       destination = [x, y];
       break;
@@ -241,14 +245,15 @@ function wanderWindow() {
   }
 
   if (!destination) {
-    const area = screen.getDisplayNearestPoint({ x: currentX, y: currentY }).workArea;
+    const display = screen.getDisplayNearestPoint({ x: currentX, y: currentY });
+    const area = display.workArea;
+    const minY = display.bounds.y - GHOST_VERTICAL_BOUNDS.top;
+    const maxY = display.bounds.y + display.bounds.height - GHOST_VERTICAL_BOUNDS.bottom;
     destination = [
       currentX < area.x + area.width / 2
         ? Math.max(area.x, area.x + area.width - WINDOW_SIZE.width)
         : area.x,
-      currentY < area.y + area.height / 2
-        ? Math.max(area.y, area.y + area.height - WINDOW_SIZE.height)
-        : area.y
+      currentY < area.y + area.height / 2 ? maxY : minY
     ];
   }
 
@@ -262,12 +267,14 @@ function updateDraggedWindow() {
   const targetX = Math.round(dragOrigin.windowX + pointer.x - dragOrigin.pointerX);
   const targetY = Math.round(dragOrigin.windowY + pointer.y - dragOrigin.pointerY);
   const targetCenter = { x: targetX + WINDOW_SIZE.width / 2, y: targetY + WINDOW_SIZE.height / 2 };
-  const { workArea } = screen.getDisplayNearestPoint(targetCenter);
+  const display = screen.getDisplayNearestPoint(targetCenter);
+  const { workArea } = display;
+  const minY = display.bounds.y - GHOST_VERTICAL_BOUNDS.top;
   const maxX = Math.max(workArea.x, workArea.x + workArea.width - WINDOW_SIZE.width);
-  const maxY = Math.max(workArea.y, workArea.y + workArea.height - WINDOW_SIZE.height);
+  const maxY = display.bounds.y + display.bounds.height - GHOST_VERTICAL_BOUNDS.bottom;
   mainWindow.setPosition(
     Math.min(maxX, Math.max(workArea.x, targetX)),
-    Math.min(maxY, Math.max(workArea.y, targetY))
+    Math.min(maxY, Math.max(minY, targetY))
   );
 }
 
