@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Meet Boo-buddy, a shy desktop ghost powered by an offline local model.">
+  <meta name="color-scheme" content="light dark">
+  <title>Boo-buddy — your tiny desktop ghost</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="hero">
+    <nav><a class="brand" href="#">✿ Boo-buddy</a><a href="#why-open">Why open?</a></nav>
+    <div class="hero-content">
+      <div>
+        <p class="eyebrow">YOUR NEW DESKTOP ROOMMATE</p>
+        <h1>A little ghost.<br>A lot of heart.</h1>
+        <p class="pitch">A shy, sweet desktop pet with thoughts of its own — powered by a model that stays on your computer.</p>
+        <div class="downloads">
+          <a class="button" href="https://github.com/YOUR-NAME/boo-buddy/releases/latest">Download for Windows</a>
+          <a href="https://github.com/YOUR-NAME/boo-buddy/releases/latest">macOS</a>
+          <a href="https://github.com/YOUR-NAME/boo-buddy/releases/latest">Linux</a>
+        </div>
+      </div>
+      <div class="demo" aria-label="Demo GIF placeholder">
+        <div class="halo"></div><div class="ghost-hero">👻</div>
+        <div class="speech">You are doing wonderfully, even between tiny victories.</div>
+        <span class="placeholder">Demo GIF goes here</span>
+      </div>
+    </div>
+  </header>
+  <main>
+    <section class="section" id="moods">
+      <p class="eyebrow">A GHOST WITH A FEW SIDES</p><h2>Meet the moods</h2>
+      <div class="cards moods">
+        <article class="card tint-cheery"><span>✨</span><h3>Cheery</h3><p>A little sparkle for your everyday.</p></article>
+        <article class="card tint-sleepy"><span>🌙</span><h3>Sleepy</h3><p>After midnight, even ghosts yawn.</p></article>
+        <article class="card tint-spooked"><span>😱</span><h3>Spooked</h3><p>One loud click? Oh, goodness.</p></article>
+        <article class="card tint-proud"><span>🏆</span><h3>Proud</h3><p>Your tiny wins are big news.</p></article>
+        <article class="card tint-lonely"><span>💜</span><h3>Lonely</h3><p>A soft hello when you return.</p></article>
+        <article class="card tint-spooky"><span>🎃</span><h3>Spooky</h3><p>October calls for a polite boo.</p></article>
+        <article class="card tint-marigold"><span>🌼</span><h3>Marigold</h3><p>Candlelight, flowers, and remembering.</p></article>
+      </div>
+    </section>
+    <section class="section why" id="why-open">
+      <p class="eyebrow">OPEN BY DESIGN</p><h2>Your ghost. Your rules.</h2>
+      <div class="cards">
+        <article class="card"><h3>Works offline</h3><p>Run it without Wi-Fi. Nothing leaves your machine.</p></article>
+        <article class="card"><h3>$0 to use</h3><p>No subscription, account, API key, or analytics.</p></article>
+        <article class="card"><h3>Swap the model</h3><p>Pick a local Gemma or another supported Ollama model.</p></article>
+        <article class="card"><h3>Edit the personality</h3><p>Open the prompt and make Boo-ddy your own.</p></article>
+        <article class="card"><h3>Made to last</h3><p>No hosted service to disappear from under your ghost.</p></article>
+      </div>
+    </section>
+    <section class="section steps">
+      <p class="eyebrow">UP AND FLOATING IN THREE STEPS</p><h2>Bring Boo home</h2>
+      <ol>
+        <li><span>1</span><div><h3>Install Ollama</h3><p>Get the local model runner from ollama.com.</p></div></li>
+        <li><span>2</span><div><h3>Download a model</h3><code>ollama pull gemma3:1b</code></div></li>
+        <li><span>3</span><div><h3>Install Boo-buddy</h3><p>Download your desktop app, launch it, and say hello.</p></div></li>
+      </ol>
+    </section>
+    <section class="section compare">
+      <p class="eyebrow">REAL PROMPTS, LOCAL MODELS</p><h2>Model comparison</h2>
+      <p>Measurements are generated on your hardware. Run <code>npm run compare</code> with the models installed.</p>
+      <div class="table-wrap"><table><thead><tr><th>Model</th><th>Prompts followed</th><th>Median latency</th></tr></thead><tbody><tr><td colspan="3">TODO — paste measured results from docs/model-comparison.md</td></tr></tbody></table></div>
+    </section>
+  </main>
+  <footer><span>Made with a little spirit and a lot of open source.</span><a href="https://github.com/YOUR-NAME/boo-buddy">View the source</a></footer>
+</body>
+</html>

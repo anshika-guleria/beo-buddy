@@ -1,0 +1,39 @@
+{
+  "name": "boo-buddy",
+  "version": "1.0.0",
+  "description": "A shy, offline-friendly desktop ghost powered by local Ollama models.",
+  "main": "main.js",
+  "author": "Boo-buddy contributors",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder",
+    "compare": "node scripts/compare-models.js"
+  },
+  "devDependencies": {
+    "electron": "^45.1.0",
+    "electron-builder": "^26.18.0"
+  },
+  "build": {
+    "appId": "tech.yourname.boobuddy",
+    "productName": "Boo-buddy",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  }
+}
