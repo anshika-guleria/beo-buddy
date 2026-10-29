@@ -1,0 +1,48 @@
+name: Bug report
+description: Report a problem with Boo-buddy
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before submitting, check whether this issue has already been reported.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Describe the problem and what you expected to happen.
+      placeholder: Tell us what went wrong.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: List the steps that cause the problem.
+      placeholder: |
+        1. Open Boo-buddy
+        2. ...
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Boo-buddy version
+      placeholder: For example, 1.0.0
+    validations:
+      required: false
+  - type: input
+    id: operating-system
+    attributes:
+      label: Operating system
+      placeholder: For example, Windows 11
+    validations:
+      required: true
+  - type: textarea
+    id: visual-evidence
+    attributes:
+      label: Video or screenshots
+      description: Attach a short video or screenshots if they help show the problem.
+    validations:
+      required: false

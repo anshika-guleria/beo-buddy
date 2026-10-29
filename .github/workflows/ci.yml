@@ -1,0 +1,32 @@
+name: Pull request checks
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    name: JavaScript and app build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Check JavaScript syntax
+        run: |
+          node --check main.js
+          node --check preload.js
+          node --check renderer/app.js
+          node --check scripts/compare-models.js
+      - name: Build unpacked app
+        run: npm run dist -- --dir
