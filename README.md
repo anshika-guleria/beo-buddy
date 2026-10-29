@@ -32,7 +32,7 @@ These steps work on Windows, macOS, and Linux. PowerShell examples are shown.
 
 ### 1. Install the free prerequisites
 
-- **Node.js 20 or newer:** download the LTS version from [nodejs.org](https://nodejs.org/).
+- **Node.js 22.12 or newer:** download the LTS version from [nodejs.org](https://nodejs.org/).
 - **Ollama:** install it from [ollama.com/download](https://ollama.com/download).
 
 Node.js runs Boo-buddy and installs its development dependencies. Ollama runs the language model on your computer.
