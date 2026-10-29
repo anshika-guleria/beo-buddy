@@ -90,10 +90,8 @@ Boo-buddy has six selectable ghost friends and a handful of moods:
 | ✨ **Cheery** | A little sparkle and encouragement |
 | 🌙 **Sleepy** | Yawns between midnight and 5 AM |
 | 😱 **Spooked** | Gets startled by repeated pokes |
-| 🏆 **Proud** | Celebrates a tiny win you choose to share |
 | 💜 **Lonely** | Offers a soft hello when you return |
 | 🎃 **Spooky** | Halloween glow from October 25–31 |
-| 🌼 **Marigold** | Warm candlelight from November 1–2 |
 
 ### Controls
 
