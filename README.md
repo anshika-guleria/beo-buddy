@@ -2,7 +2,7 @@
 
 ### A tiny desktop ghost with a soft spot for your tiny wins.
 
-Boo-buddy is a floating desktop companion powered by an AI model that runs locally with [Ollama](https://ollama.com/). It can cheer you on, react when you poke it, answer a whisper, and get sleepy after midnight.
+Boo-buddy is a floating desktop companion powered by a local AI model running on [Ollama](https://ollama.com/). It can cheer you on, react when you poke it, answer a whisper, and get sleepy after midnight.
 
 > **Free to use. No paid services, subscriptions, API keys, or accounts required.**
 > Internet access is needed to download the app dependencies and a model. After setup, Boo-buddy and its downloaded model can run offline.
