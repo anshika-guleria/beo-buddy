@@ -101,6 +101,7 @@ Boo-buddy has six selectable ghost friends and a handful of moods:
 | Move Boo-buddy | Drag the ghost |
 | Change ghost | **Ctrl+Shift+G** (Windows/Linux) or **Command+Shift+G** (macOS); the tray also has **Pick a friend** |
 | Toggle the sugar-skull masks | **Ctrl+Shift+M** (Windows/Linux) or **Command+Shift+M** (macOS) |
+| Play an original festival-inspired dance tune (10 seconds) | **Ctrl+Shift+D** (Windows/Linux) or **Command+Shift+D** (macOS) |
 | View the ghost shortcuts | Click the candle; press **Escape** to close the guide |
 | Share clipboard text | Choose **Show my clipboard** in the tray or press **Ctrl+Shift+B** (Windows/Linux) / **Command+Shift+B** (macOS) |
 

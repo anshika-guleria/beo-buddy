@@ -3,6 +3,7 @@ const { contextBridge, ipcRenderer } = require('electron');
 contextBridge.exposeInMainWorld('booBuddy', {
   setMouseEvents: (ignore) => ipcRenderer.send('set-mouse-events', ignore),
   setWhisperActive: (active) => ipcRenderer.send('whisper-active', active),
+  setShortcutHelpOpen: (open) => ipcRenderer.send('shortcut-help-open', open),
   beginWindowDrag: () => ipcRenderer.send('begin-window-drag'),
   moveWindowDrag: () => ipcRenderer.send('move-window-drag'),
   endWindowDrag: () => ipcRenderer.send('end-window-drag'),
@@ -17,6 +18,7 @@ contextBridge.exposeInMainWorld('booBuddy', {
   onCharacter: (callback) => ipcRenderer.on('character', (_event, character) => callback(character)),
   onNextCharacterShortcut: (callback) => ipcRenderer.on('next-character-shortcut', callback),
   onToggleMasksShortcut: (callback) => ipcRenderer.on('toggle-masks-shortcut', callback),
+  onFestivalToggleShortcut: (callback) => ipcRenderer.on('festival-toggle-shortcut', callback),
   onOnboarding: (callback) => ipcRenderer.on('onboarding', (_event, payload) => callback(payload)),
   onLonely: (callback) => ipcRenderer.on('lonely', callback),
   onReturnFromLonely: (callback) => ipcRenderer.on('return-from-lonely', callback),

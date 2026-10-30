@@ -23,6 +23,26 @@ Its app controls (such as changing ghosts, muting, and setting a mood) are
 available in the tray menu; asking the AI to do something does not trigger
 arbitrary computer actions.
 
+### What can I ask Boo-buddy?
+
+Boo-buddy is a conversation companion, not a computer-control assistant. You
+can ask it to:
+
+- Explain a topic or give simple, step-by-step guidance.
+- Help break a small goal into manageable steps.
+- Brainstorm ideas, such as a study plan, a name, or a kind message.
+- Celebrate a win, offer encouragement, or keep you company.
+- React to text you choose to share from your clipboard.
+
+For example, try “Help me choose one small thing to start with,” “Explain this
+in simple words,” or “Help me plan a 20-minute tidy-up.” It can suggest what to
+do, but it will not carry out the plan for you.
+
+It cannot open apps or websites, edit files, set real reminders, send messages,
+or perform other actions on your computer. Use the tray menu and keyboard
+shortcuts for Boo-buddy's built-in controls. Its answers come from your local
+model, so they can be mistaken; check important information.
+
 Ollama is required for Boo-buddy's generated replies. Boo-buddy does not replace
 failed or unusable model replies with prewritten quips. When a whisper cannot
 get a reply, the chat shows an error so you can check Ollama and try again.

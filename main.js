@@ -2,10 +2,13 @@ const { app, BrowserWindow, Tray, Menu, ipcMain, screen, clipboard, globalShortc
 const path = require('node:path');
 const fs = require('node:fs/promises');
 
+app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
+
 const MODEL_NAMES = ['gemma3:1b', 'gemma3:4b', 'llama3.2:1b', 'qwen2.5:1.5b'];
 const CHARACTERS = ['ghost-1', 'ghost-2', 'ghost-3', 'ghost-4', 'ghost-5', 'ghost-6'];
 const CHARACTER_NAMES = ['Boo-ddy', 'Violet', 'Pumpkin', 'Batty', 'Cozy', 'Whisper'];
 const WINDOW_SIZE = { width: 320, height: 695 };
+const SHORTCUT_WINDOW_WIDTH = 560;
 const GHOST_VERTICAL_BOUNDS = { top: 450, bottom: 660 };
 const WANDER_AFTER_MS = 5 * 60 * 1000;
 const DEFAULT_SETTINGS = {
@@ -71,6 +74,8 @@ let lastWindowMoveAt = Date.now();
 let wanderTimer;
 let whisperActive = false;
 let dragOrigin = null;
+let shortcutHelpWindowExpanded = false;
+let shortcutHelpWindowOffset = 0;
 let dragTimer;
 let positionSaveTimer;
 let conversationHistory = [];
@@ -224,6 +229,7 @@ function wanderWindow() {
 
   const [currentX, currentY] = mainWindow.getPosition();
   const bounds = mainWindow.getBounds();
+  const windowWidth = bounds.width;
   const cursor = screen.getCursorScreenPoint();
   if (cursor.x >= bounds.x && cursor.x < bounds.x + bounds.width
       && cursor.y >= bounds.y && cursor.y < bounds.y + bounds.height) return;
@@ -234,7 +240,7 @@ function wanderWindow() {
     const display = displays[Math.floor(Math.random() * displays.length)];
     const area = display.workArea;
     const minY = display.bounds.y - GHOST_VERTICAL_BOUNDS.top;
-    const maxX = Math.max(area.x, area.x + area.width - WINDOW_SIZE.width);
+    const maxX = Math.max(area.x, area.x + area.width - windowWidth);
     const maxY = display.bounds.y + display.bounds.height - GHOST_VERTICAL_BOUNDS.bottom;
     const x = Math.round(area.x + Math.random() * (maxX - area.x));
     const y = Math.round(minY + Math.random() * (maxY - minY));
@@ -251,7 +257,7 @@ function wanderWindow() {
     const maxY = display.bounds.y + display.bounds.height - GHOST_VERTICAL_BOUNDS.bottom;
     destination = [
       currentX < area.x + area.width / 2
-        ? Math.max(area.x, area.x + area.width - WINDOW_SIZE.width)
+        ? Math.max(area.x, area.x + area.width - windowWidth)
         : area.x,
       currentY < area.y + area.height / 2 ? maxY : minY
     ];
@@ -266,16 +272,43 @@ function updateDraggedWindow() {
   const pointer = screen.getCursorScreenPoint();
   const targetX = Math.round(dragOrigin.windowX + pointer.x - dragOrigin.pointerX);
   const targetY = Math.round(dragOrigin.windowY + pointer.y - dragOrigin.pointerY);
-  const targetCenter = { x: targetX + WINDOW_SIZE.width / 2, y: targetY + WINDOW_SIZE.height / 2 };
+  const windowBounds = mainWindow.getBounds();
+  const targetCenter = { x: targetX + windowBounds.width / 2, y: targetY + windowBounds.height / 2 };
   const display = screen.getDisplayNearestPoint(targetCenter);
   const { workArea } = display;
   const minY = display.bounds.y - GHOST_VERTICAL_BOUNDS.top;
-  const maxX = Math.max(workArea.x, workArea.x + workArea.width - WINDOW_SIZE.width);
+  const maxX = Math.max(workArea.x, workArea.x + workArea.width - windowBounds.width);
   const maxY = display.bounds.y + display.bounds.height - GHOST_VERTICAL_BOUNDS.bottom;
   mainWindow.setPosition(
     Math.min(maxX, Math.max(workArea.x, targetX)),
     Math.min(maxY, Math.max(minY, targetY))
   );
+}
+
+function setShortcutHelpWindowExpanded(expanded) {
+  if (!mainWindow || mainWindow.isDestroyed() || expanded === shortcutHelpWindowExpanded) return;
+  const bounds = mainWindow.getBounds();
+  const display = screen.getDisplayNearestPoint({
+    x: bounds.x + bounds.width / 2,
+    y: bounds.y + bounds.height / 2
+  });
+  const { workArea } = display;
+
+  if (expanded) {
+    const width = Math.min(SHORTCUT_WINDOW_WIDTH, workArea.width);
+    const maxX = Math.max(workArea.x, workArea.x + workArea.width - width);
+    const x = Math.min(maxX, Math.max(workArea.x, bounds.x));
+    shortcutHelpWindowOffset = x - bounds.x;
+    shortcutHelpWindowExpanded = true;
+    mainWindow.setBounds({ x, y: bounds.y, width, height: WINDOW_SIZE.height });
+    return;
+  }
+
+  const maxX = Math.max(workArea.x, workArea.x + workArea.width - WINDOW_SIZE.width);
+  const x = Math.min(maxX, Math.max(workArea.x, bounds.x - shortcutHelpWindowOffset));
+  shortcutHelpWindowExpanded = false;
+  shortcutHelpWindowOffset = 0;
+  mainWindow.setBounds({ x, y: bounds.y, ...WINDOW_SIZE });
 }
 
 function beginWindowDrag(event) {
@@ -331,7 +364,8 @@ function createWindow() {
   mainWindow.on('moved', () => {
     if (mainWindow && !mainWindow.isDestroyed()) {
       lastWindowMoveAt = Date.now();
-      settings.position = mainWindow.getPosition();
+      const [x, y] = mainWindow.getPosition();
+      settings.position = [x - shortcutHelpWindowOffset, y];
       clearTimeout(positionSaveTimer);
       positionSaveTimer = setTimeout(() => {
         saveSettings().catch((error) => console.error('Could not save window position:', error));
@@ -441,6 +475,11 @@ function registerIpc() {
       mainWindow.setIgnoreMouseEvents(ignore, ignore ? { forward: true } : undefined);
     }
   });
+  ipcMain.on('shortcut-help-open', (event, expanded) => {
+    if (event.sender === mainWindow?.webContents && typeof expanded === 'boolean') {
+      setShortcutHelpWindowExpanded(expanded);
+    }
+  });
   ipcMain.on('begin-window-drag', (event) => {
     beginWindowDrag(event);
   });
@@ -512,7 +551,8 @@ app.whenReady().then(async () => {
   globalShortcut.register('CommandOrControl+Shift+B', shareClipboard);
   const shortcutActions = [
     ['CommandOrControl+Shift+G', 'next-character-shortcut'],
-    ['CommandOrControl+Shift+M', 'toggle-masks-shortcut']
+    ['CommandOrControl+Shift+M', 'toggle-masks-shortcut'],
+    ['CommandOrControl+Shift+D', 'festival-toggle-shortcut']
   ];
   for (const [accelerator, channel] of shortcutActions) {
     if (!globalShortcut.register(accelerator, () => mainWindow?.webContents.send(channel))) {

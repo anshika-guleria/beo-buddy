@@ -21,6 +21,18 @@ const friendNames = {
 let dragPointer = null;
 let suppressGhostClick = false;
 let paintedMasksEnabled = true;
+let festivalModeEnabled = false;
+let festivalAudioContext = null;
+let festivalStopTimer = null;
+const festivalMelody = [
+  659.25, 783.99, 880, 783.99, 659.25, 783.99, 1046.5, 880,
+  783.99, 880, 1046.5, 1174.66, 1046.5, 880, 783.99, 659.25,
+  880, 1046.5, 1174.66, 1046.5, 880, 1046.5, 1318.51, 1174.66,
+  1046.5, 1174.66, 1318.51, 1567.98, 1318.51, 1174.66, 1046.5, 880,
+  783.99, 880, 1046.5, 1174.66, 1046.5, 880, 783.99, 659.25
+];
+const festivalDurationMs = 10000;
+const festivalBeatSeconds = 0.25;
 
 function openWhisperBox() {
   pet.classList.add('chat-open');
@@ -73,6 +85,7 @@ window.booBuddy.onMood(setPetMood);
 window.booBuddy.onCharacter((character) => setCharacter(character));
 window.booBuddy.onNextCharacterShortcut(() => cycleCharacter());
 window.booBuddy.onToggleMasksShortcut(() => setMasksEnabled(!paintedMasksEnabled));
+window.booBuddy.onFestivalToggleShortcut(() => setFestivalMode(!festivalModeEnabled));
 window.booBuddy.onLonely(() => { pet.classList.add('mood-lonely'); });
 window.booBuddy.onReturnFromLonely(() => { pet.classList.remove('mood-lonely'); showBubble('You came back! I saved you a tiny heart.'); });
 window.booBuddy.onOpenWhisper(openWhisperBox);
@@ -94,7 +107,7 @@ function setCharacter(character) {
   pet.dataset.character = character;
   petName.textContent = friendNames[character];
   characterImage.src = `ghosts/${character}${paintedMasksEnabled ? '' : '-classic'}.svg`;
-  characterImage.alt = `${friendNames[character]}, a cute Halloween ghost`;
+  characterImage.alt = `${friendNames[character]}, a cute Día de los Muertos ghost`;
 }
 
 function setMasksEnabled(enabled) {
@@ -103,9 +116,121 @@ function setMasksEnabled(enabled) {
   setCharacter(pet.dataset.character);
 }
 
+function playFestivalNote(context, frequency, startTime, duration) {
+  const oscillator = context.createOscillator();
+  const volume = context.createGain();
+  const overtone = context.createOscillator();
+  const overtoneVolume = context.createGain();
+  oscillator.type = 'sine';
+  oscillator.frequency.value = frequency;
+  overtone.type = 'sine';
+  overtone.frequency.value = frequency * 2;
+  volume.gain.setValueAtTime(0.0001, startTime);
+  volume.gain.exponentialRampToValueAtTime(0.055, startTime + 0.008);
+  volume.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+  overtoneVolume.gain.setValueAtTime(0.0001, startTime);
+  overtoneVolume.gain.exponentialRampToValueAtTime(0.012, startTime + 0.008);
+  overtoneVolume.gain.exponentialRampToValueAtTime(0.0001, startTime + duration * 0.65);
+  oscillator.connect(volume);
+  overtone.connect(overtoneVolume);
+  volume.connect(context.destination);
+  overtoneVolume.connect(context.destination);
+  oscillator.start(startTime);
+  oscillator.stop(startTime + duration);
+  overtone.start(startTime);
+  overtone.stop(startTime + duration * 0.65);
+}
+
+function playFestivalKick(context, startTime) {
+  const oscillator = context.createOscillator();
+  const volume = context.createGain();
+  oscillator.type = 'sine';
+  oscillator.frequency.setValueAtTime(125, startTime);
+  oscillator.frequency.exponentialRampToValueAtTime(52, startTime + 0.12);
+  volume.gain.setValueAtTime(0.0001, startTime);
+  volume.gain.exponentialRampToValueAtTime(0.12, startTime + 0.008);
+  volume.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.16);
+  oscillator.connect(volume);
+  volume.connect(context.destination);
+  oscillator.start(startTime);
+  oscillator.stop(startTime + 0.16);
+}
+
+function playFestivalShaker(context, startTime) {
+  const bufferSize = Math.ceil(context.sampleRate * 0.045);
+  const buffer = context.createBuffer(1, bufferSize, context.sampleRate);
+  const data = buffer.getChannelData(0);
+  for (let index = 0; index < bufferSize; index += 1) {
+    data[index] = Math.random() * 2 - 1;
+  }
+  const noise = context.createBufferSource();
+  const filter = context.createBiquadFilter();
+  const volume = context.createGain();
+  noise.buffer = buffer;
+  filter.type = 'highpass';
+  filter.frequency.value = 6500;
+  volume.gain.setValueAtTime(0.0001, startTime);
+  volume.gain.exponentialRampToValueAtTime(0.018, startTime + 0.004);
+  volume.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.04);
+  noise.connect(filter);
+  filter.connect(volume);
+  volume.connect(context.destination);
+  noise.start(startTime);
+  noise.stop(startTime + 0.045);
+}
+
+function playFestivalPhrase(context) {
+  const phraseStart = context.currentTime + 0.03;
+  const noteCount = Math.floor(festivalDurationMs / (festivalBeatSeconds * 1000));
+  for (let index = 0; index < noteCount; index += 1) {
+    const frequency = festivalMelody[index % festivalMelody.length];
+    const noteStart = phraseStart + index * festivalBeatSeconds;
+    playFestivalNote(context, frequency, noteStart, 0.2);
+    playFestivalShaker(context, noteStart);
+    if (index % 2 === 0) playFestivalKick(context, noteStart);
+  }
+}
+
+function startFestivalMusic() {
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  if (!AudioContext) {
+    console.warn('Festival music is unavailable because this browser does not support Web Audio.');
+    return;
+  }
+  const context = new AudioContext();
+  festivalAudioContext = context;
+  context.resume().then(() => {
+    if (!festivalModeEnabled || festivalAudioContext !== context) return context.close();
+    playFestivalPhrase(context);
+  }).catch((error) => {
+    console.error('Could not start festival music:', error);
+  });
+}
+
+function stopFestivalMusic() {
+  clearTimeout(festivalStopTimer);
+  festivalStopTimer = null;
+  if (festivalAudioContext) {
+    festivalAudioContext.close().catch((error) => console.error('Could not stop festival music:', error));
+    festivalAudioContext = null;
+  }
+}
+
+function setFestivalMode(enabled) {
+  festivalModeEnabled = enabled;
+  pet.classList.toggle('festival-mode', enabled);
+  if (enabled) {
+    startFestivalMusic();
+    festivalStopTimer = setTimeout(() => setFestivalMode(false), festivalDurationMs);
+  } else {
+    stopFestivalMusic();
+  }
+}
+
 function toggleShortcutHelp() {
   shortcutHelp.hidden = !shortcutHelp.hidden;
   candleButton.setAttribute('aria-expanded', String(!shortcutHelp.hidden));
+  window.booBuddy.setShortcutHelpOpen(!shortcutHelp.hidden);
   if (!shortcutHelp.hidden) window.booBuddy.setMouseEvents(false);
   else updateMousePassThrough();
 }
