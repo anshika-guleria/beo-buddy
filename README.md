@@ -107,8 +107,6 @@ Boo-buddy has six selectable ghost friends and a handful of moods:
 
 The clipboard is read only after you explicitly choose to share it, and at most 300 characters are sent to the local model.
 
-Each ghost has coordinated colors, a signature prop, a sugar-skull mask option, and a classic face option. The masks have large floral eyes, colorful face-paint details, a small smile, and one large flower on the upper-right of the head. The candle flickers when masks are on and gently smokes when they are off. Movement is intentionally gentle: a slow idle float and a soft squash when you poke the character.
-
 ---
 
 ## 🧠 Choose a model
