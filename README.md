@@ -128,20 +128,6 @@ ollama pull qwen2.5:1.5b
 
 Then choose **Pick model** from the tray menu. All listed models are free to download and run locally; model size affects download size, memory use, and response speed.
 
-### Compare models
-
-To compare the four listed models on your computer, download them and run:
-
-```powershell
-ollama pull gemma3:1b
-ollama pull gemma3:4b
-ollama pull llama3.2:1b
-ollama pull qwen2.5:1.5b
-npm run compare
-```
-
-The script sends six prompts per model to your local Ollama server and records actual replies, response times, word counts, and rule compliance in [`docs/model-comparison.md`](docs/model-comparison.md). Keep Ollama running during the comparison. If a model is missing or Ollama is unavailable, the report records the error rather than inventing results.
-
 ---
 
 ## 🔒 Privacy and offline use
