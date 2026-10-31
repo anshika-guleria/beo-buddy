@@ -216,8 +216,6 @@ The static landing page is in [`site/`](site/). GitHub Pages can host it at a fr
 3. In repository settings, open **Pages** and enable GitHub Actions as the publishing source.
 4. Push to the `main` branch. The workflow publishes `site/` to `https://YOUR-NAME.github.io/boo-buddy/`.
 
-You can optionally configure a domain you already own in GitHub Pages settings; purchasing one is not required.
-
 ---
 
 ## 🧰 Project map
@@ -237,7 +235,3 @@ You can optionally configure a domain you already own in GitHub Pages settings; 
 ## 🛠️ Built with
 
 Electron · Vanilla JavaScript · HTML · CSS · Inline SVG · Ollama · Gemma
-
-No frontend framework, Python, paid service, or remote inference API is required.
-
-The six ghost illustrations are adapted from the `tap-the-ghosts.html` artwork provided with this project. Check the original artwork's license and include any required attribution before redistributing this app.
